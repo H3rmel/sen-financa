@@ -1,3 +1,5 @@
+/* Navbar */
+
 nav {
   width: min(100% - 2rem, 75rem);
   align-items: center;
@@ -8,8 +10,15 @@ nav {
 }
 
 nav h1 {
-  font-size: 24px;
+  font-size: 28px;
   margin: 0;
+  transition: 0.3s;
+  border: 0;
+}
+
+nav h1:hover {
+  transform: scale(1.25);
+  cursor: pointer;
 }
 
 nav .links {
@@ -20,7 +29,29 @@ nav ul li {
   padding: 0;
 }
 
-nav [role=button] {
+nav [role="button"] {
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
+}
+
+/* Error Page  */
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.error article {
+  max-width: 640px;
+}
+
+.error h1 {
+  margin: 0;
+}
+
+.error [role="button"] {
+  width: 100%;
 }

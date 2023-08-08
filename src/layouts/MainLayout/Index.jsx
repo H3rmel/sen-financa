@@ -9,7 +9,7 @@ import { Navbar } from "@/components/Index";
 export const MainLayout = ({ pageTitle, children }) => {
   useEffect(() => {
     document.title = `${pageTitle} | SenFinança`;
-  }, []);
+  }, [pageTitle]);
 
   return (
     <>
