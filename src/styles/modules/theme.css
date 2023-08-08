@@ -1,0 +1,76 @@
+/* Pink Light scheme (Default) */
+/* Can be forced with data-theme="light" */
+[data-theme="light"],
+:root:not([data-theme="dark"]) {
+  --primary: #05cb96;
+  --primary-hover: #05b787;
+  --primary-focus: rgba(5, 203, 150, 0.125);
+  --primary-inverse: #f5f5f7;
+  --secondary: #232732;
+  --secondary-hover: #20232d;
+  --secondary-focus: rgba(35, 39, 50, 0.25);
+  --secondary-inverse: #f5f5f7;
+  --background-color: #000000;
+  --background-color: #f5f5f7;
+  --color: #000000;
+  --h1-color: #000000;
+  --h2-color: #000000;
+  --h3-color: #000000;
+  --h4-color: #000000;
+  --h5-color: #000000;
+  --h6-color: #000000;
+}
+
+/* Pink Dark scheme (Auto) */
+/* Automatically enabled if user has Dark mode enabled */
+@media only screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --primary: #05cb96;
+    --primary-hover: #05b787;
+    --primary-focus: rgba(5, 203, 150, 0.25);
+    --primary-inverse: #f5f5f7;
+    --secondary: #232732;
+    --secondary-hover: #20232d;
+    --secondary-focus: rgba(35, 39, 50, 0.25);
+    --secondary-inverse: #f5f5f7;
+    --background-color: #000000;
+    --background-color: #000000;
+    --color: #f5f5f7;
+    --h1-color: #f5f5f7;
+    --h2-color: #f5f5f7;
+    --h3-color: #f5f5f7;
+    --h4-color: #f5f5f7;
+    --h5-color: #f5f5f7;
+    --h6-color: #f5f5f7;
+  }
+}
+
+/* Pink Dark scheme (Forced) */
+/* Enabled if forced with data-theme="dark" */
+[data-theme="dark"] {
+  --primary: #05cb96;
+  --primary-hover: #05b787;
+  --primary-focus: rgba(5, 203, 150, 0.25);
+  --primary-inverse: #f5f5f7;
+  --secondary: #232732;
+  --secondary-hover: #20232d;
+  --secondary-focus: rgba(35, 39, 50, 0.25);
+  --secondary-inverse: #f5f5f7;
+  --background-color: #000000;
+  --color: #f5f5f7;
+  --h1-color: #f5f5f7;
+  --h2-color: #f5f5f7;
+  --h3-color: #f5f5f7;
+  --h4-color: #f5f5f7;
+  --h5-color: #f5f5f7;
+  --h6-color: #f5f5f7;
+}
+
+/* Pink (Common styles) */
+:root {
+  --form-element-active-border-color: var(--primary);
+  --form-element-focus-color: var(--primary-focus);
+  --switch-color: var(--primary-inverse);
+  --switch-checked-background-color: var(--primary);
+  --font-family: "Outfit", sans-serif;
+}

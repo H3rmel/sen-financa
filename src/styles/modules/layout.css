@@ -1,0 +1,26 @@
+nav {
+  width: min(100% - 2rem, 75rem);
+  align-items: center;
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  margin: 1rem auto;
+  background: var(--secondary);
+}
+
+nav h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+nav .links {
+  gap: 1.5rem;
+}
+
+nav ul li {
+  padding: 0;
+}
+
+nav [role=button] {
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+}

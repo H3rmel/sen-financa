@@ -1,10 +1,22 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+//#region Imports
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+//* React.js
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
+//* React Router
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
+
+import "@picocss/pico"
+import "@/styles/main.css";
+
+//#endregion
+
+const app = createRoot(document.getElementById("app"));
+
+app.render(
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>
+);
