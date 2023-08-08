@@ -55,3 +55,27 @@ nav [role="button"] {
 .error [role="button"] {
   width: 100%;
 }
+
+/* Main page */
+
+dialog article {
+  width: 100%;
+}
+
+dialog button.close {
+  background-color: transparent;
+  border: 0;
+}
+
+dialog button.close:hover {
+  opacity: 1;
+}
+
+dialog h3 {
+  margin: 0;
+}
+
+dialog footer {
+  display: flex;
+  gap: 1rem;
+}

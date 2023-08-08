@@ -12,7 +12,7 @@ export const Navbar = () => {
         </li>
         <li>
           <NavLink to="/about" role="button">
-            Button
+            Sobre
           </NavLink>
         </li>
       </ul>
