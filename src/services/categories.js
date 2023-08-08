@@ -4,13 +4,13 @@
 
 const CATEGORY_STORAGE_KEY = "categories";
 
-//* Garante que as transações possuam a estrutura correta
+//* Garante que as categorias possuam a estrutura correta
 const Category = (id, name) => ({
   id,
   name,
 });
 
-//* Métodos genêricos para retornar e salvar transações
+//* Métodos genêricos para retornar e salvar categorias
 const getCategories = () => {
   return JSON.parse(localStorage.getItem(CATEGORY_STORAGE_KEY)) || [];
 };
