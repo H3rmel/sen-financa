@@ -5,17 +5,19 @@
 //* Imports
 import { getFormattedDate } from "@/utils/formattedDate";
 
-const STORAGE_KEY = "transactions";
+const STORAGE_KEY = "sf-transactions";
 
 //* Garante que as transações possuam a estrutura correta
-const Transaction = (id, title, type, category, value, createdAt) => ({
-  id,
-  title,
-  type,
-  category,
-  value,
-  createdAt,
-});
+class Transaction {
+  constructor(id, title, type, category, value, createdAt) {
+    this.id = id;
+    this.title = title;
+    this.type = type;
+    this.category = category;
+    this.value = value;
+    this.createdAt = createdAt;
+  }
+}
 
 //* Métodos genêricos para retornar e salvar transações
 const getTransactions = () => {
@@ -27,9 +29,9 @@ const saveTransactions = (transactions) => {
 };
 
 //* Create
-const addTransaction = (title, type, category, value) => {
+const addTransaction = ({ title, type, category, value }) => {
   const createdAt = getFormattedDate();
-  const id = new Date.getTime();
+  const id = new Date().getTime();
 
   const newTransaction = new Transaction(
     id,

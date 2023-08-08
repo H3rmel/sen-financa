@@ -14,7 +14,7 @@ export const MainLayout = ({ pageTitle, children }) => {
   return (
     <>
       <Navbar />
-      <main className="container">{children}</main>
+      <main className="mt-8">{children}</main>
     </>
   );
 };

@@ -1,74 +1,35 @@
-import { useState } from "react";
+//#region Imports
+
+//* Layout and Components
 import { MainLayout } from "@/layouts/Index";
 
-export const Home = () => {
-  const [open, setOpen] = useState(false);
+//* Icons
+import { Plus } from "@phosphor-icons/react";
 
+import { ModalNewTransaction } from "@/components/Modals/ModalNewTransaction";
+import { Table } from "@/components/Index";
+
+//#endregion
+
+export const Home = () => {
+  
   return (
     <MainLayout pageTitle="Home">
-      <article>
-        <button onClick={() => setOpen(true)}>Launch demo modal</button>
-        <dialog open={open}>
-          <article>
-            <header>
-              <button
-                aria-label="Close"
-                className="close"
-                onClick={() => setOpen(false)}
-              ></button>
-              <h3>Adicionar transação</h3>
-            </header>
-            <form>
-              <div className="grid">
-                <label htmlFor="title">
-                  Título
-                  <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    placeholder="Título"
-                    required
-                  />
-                </label>
-                <label htmlFor="type">
-                  Tipo
-                  <select id="type" name="type" required>
-                    <option value="1">Entrada</option>
-                    <option value="2">Saída</option>
-                  </select>
-                </label>
-              </div>
-              <div className="grid">
-                <label htmlFor="title">
-                  Categoria
-                  <select id="category" name="category" required>
-                    <option value="1">A</option>
-                    <option value="2">B</option>
-                  </select>
-                </label>
-                <label htmlFor="value">
-                  Valor
-                  <input
-                    type="number"
-                    name="value"
-                    id="value"
-                    placeholder="Valor..."
-                    required
-                  />
-                </label>
-              </div>
-            </form>
-            <footer>
-              <button className="secondary" onClick={() => setOpen(false)}>
-                Cancel
-              </button>
-              <button className="" onClick={() => setOpen(false)}>
-                Salvar
-              </button>
-            </footer>
-          </article>
-        </dialog>
-      </article>
+      <section className="flex justify-between items-center container">
+        <hgroup>
+          <h1 className="text-3xl font-semibold tracking-wider">SenFinança</h1>
+          <p className="text-sm">Seu webapp de finanças pessoais!</p>
+        </hgroup>
+        <button
+          onClick={() => window.addTransaction.showModal()}
+          className="btn btn-primary"
+        >
+          Adicionar Transação <Plus size={16} weight="bold" />
+        </button>
+      </section>
+      <div className="divider"></div>
+      <Table />
+      <ModalNewTransaction />
     </MainLayout>
   );
 };

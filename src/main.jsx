@@ -8,15 +8,19 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 
-import "@picocss/pico"
-import "@/styles/main.css";
+//* ContextAPI
+import { TransactionProvider } from "./contexts/transactions";
 
 //#endregion
+
+import "@/styles/main.css";
 
 const app = createRoot(document.getElementById("app"));
 
 app.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <TransactionProvider>
+      <RouterProvider router={router} />
+    </TransactionProvider>
   </StrictMode>
 );

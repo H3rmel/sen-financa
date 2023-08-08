@@ -2,7 +2,7 @@
 //* Código responsável pelo CRUD de categorias usando localStorage
 //*
 
-const CATEGORY_STORAGE_KEY = "categories";
+const CATEGORY_STORAGE_KEY = "sf-categories";
 
 //* Garante que as categorias possuam a estrutura correta
 const Category = (id, name) => ({
