@@ -39,7 +39,7 @@ export const ModalEdit = ({ id, open, setOpen }) => {
     ]);
   }, [newTransaction]);
 
-  const { updateTransactions } = useApp();
+  const { updateTransactions, categories } = useApp();
 
   //#endregion
 
@@ -98,8 +98,11 @@ export const ModalEdit = ({ id, open, setOpen }) => {
           valueChange={handleChange}
           label="Categoria"
         >
-          <option value="saude">Saúde</option>
-          <option value="transporte">Transporte</option>
+          {categories.map((category, index) => (
+            <option key={index} value={category.name} className="capitalize">
+              {category.name}
+            </option>
+          ))}
         </Select>
         <Input
           id="value"

@@ -23,7 +23,7 @@ export const ModalAdd = ({ open, setOpen }) => {
 
   const [newTransaction, setNewTransaction] = useState({
     title: "",
-    type: "income",
+    type: "",
     category: "",
     value: 0,
   });
@@ -68,7 +68,7 @@ export const ModalAdd = ({ open, setOpen }) => {
 
   return (
     <Modal id="addTransaction" title="Adicionar Transação" open={open}>
-      <form className="flex justify-between flex-wrap mt-2">
+      <form className="flex justify-around flex-wrap mt-2">
         <Input
           id="title"
           type="text"

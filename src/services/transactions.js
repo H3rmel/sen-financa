@@ -80,13 +80,15 @@ const getTransactionById = (id) => {
   return transactions.find((transaction) => transaction.id === id);
 };
 
-//* Get total value of entries
-const getEntries = (typeFilter) => {
+//* Get total value OR total length of entries based on a filter
+const getEntries = (filterType, filterValue, returnLength = false) => {
   const transactions = getTransactions();
 
-  const filteredTransactions = typeFilter
-    ? transactions.filter((transaction) => transaction.type === typeFilter)
+  const filteredTransactions = filterType
+    ? transactions.filter((transaction) => transaction[filterType] === filterValue)
     : transactions;
+
+  const totalLength = filteredTransactions.length;
 
   const totalValue = filteredTransactions.reduce((accumulator, transaction) => {
     if (transaction.type === "income") {
@@ -97,8 +99,10 @@ const getEntries = (typeFilter) => {
     return accumulator;
   }, 0);
 
-  return totalValue;
+  if (returnLength) return totalLength;
+  else return totalValue;
 };
+
 
 export {
   addTransaction,
@@ -106,5 +110,5 @@ export {
   deleteTransaction,
   getAllTransactions,
   getTransactionById,
-  getEntries,
+  getEntries
 };

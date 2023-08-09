@@ -26,7 +26,7 @@ export const Select = ({
         onChange={valueChange}
         required={required}
       >
-        <option disabled>
+        <option value="">
           Selecione uma
         </option>
         {children}

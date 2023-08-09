@@ -1,6 +1,5 @@
 export { Navbar } from "./Navbar/Index";
 export { Table } from "./Table/Index";
-export { Stats } from "./Stats/Index";
 export { ConfirmButton } from "./ConfirmButton/Index";
 
 //* UI

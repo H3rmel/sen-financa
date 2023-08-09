@@ -7,7 +7,10 @@ import { useMemo, useState } from "react";
 import { useApp } from "@/contexts/app";
 
 //* Components/UI
-import { Select, Input } from "@/components/Index";
+import { Select, Input, Stat } from "@/components/Index";
+
+//* IMask
+import { IMaskInput } from "react-imask";
 
 //* Icons
 import {
@@ -18,8 +21,9 @@ import {
 } from "@phosphor-icons/react";
 
 //* Utils
-import { updateState } from "@/utils/updateState";
+import { updateState, updateStateMaskedInput } from "@/utils/updateState";
 import { getFormattedValue } from "@/utils/formattedValue";
+import { getEntries } from "@/services/transactions";
 
 //#endregion
 
@@ -30,7 +34,8 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
     type: "all",
     category: "all",
     title: "",
-    value: 0,
+    valueMin: 0,
+    valueMax: 0,
     createdAt: "",
   });
 
@@ -76,6 +81,13 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
   //* Filter
   const filteredTransactions = useMemo(() => {
     return sortedTransactions.filter((transaction) => {
+      const valueInRange =
+        (filters.valueMin === 0 ||
+          filters.valueMin === "" ||
+          transaction.value >= parseFloat(filters.valueMin)) &&
+        (filters.valueMax === 0 ||
+          filters.valueMax === "" ||
+          transaction.value <= parseFloat(filters.valueMax));
       if (
         (filters.type === "all" || transaction.type === filters.type) &&
         (filters.category === "all" ||
@@ -84,8 +96,7 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
           transaction.title
             .toLowerCase()
             .includes(filters.title.toLowerCase())) &&
-        (filters.value === "" ||
-          transaction.value.toString().includes(filters.value)) &&
+        valueInRange &&
         (filters.createdAt === "" ||
           transaction.createdAt.includes(filters.createdAt))
       )
@@ -95,16 +106,23 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
     });
   }, [sortedTransactions, filters]);
 
+  //* Handlers
   const handleChange = (event) => {
     updateState(event, setFilters);
   };
 
+  const handleMaskChange = (value, event) => {
+    updateStateMaskedInput(value, event, setFilters);
+  };
+
+  //* Reset Filters and Sorters
   const resetFiltersAndSorters = () => {
     setFilters({
       type: "all",
       category: "all",
       title: "",
-      value: 0,
+      valueMin: 0,
+      valueMax: 0,
       createdAt: "",
     });
 
@@ -118,8 +136,10 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
 
   return (
     <>
-      <article className="card bg-base-100 w-full mb-8">
-        <div className="card-body flex flex-row flex-wrap justify-center sm:justify-start items-end gap-4">
+      <article className="collapse collapse-arrow sm:max-w-xl sm:w-max bg-base-100 mb-8 border-[1px] border-neutral shadow-lg hover:outline-none focus:outline-none focus-visible:outline-none">
+        <input type="checkbox" className="w-auto" />
+        <div className="collapse-title text-xl font-medium">Filtros</div>
+        <div className="collapse-content flex flex-row flex-wrap justify-center sm:justify-start items-end gap-4">
           <Input
             id="title"
             type="text"
@@ -127,12 +147,14 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
             valueChange={handleChange}
             label="Título"
             placeholder="Escreva aqui..."
+            className="max-w-none sm:basis-[48%]"
           />
           <Select
             id="type"
             value={filters.type}
             valueChange={handleChange}
             label="Tipo"
+            className="max-w-none sm:basis-[48%]"
           >
             <option value="all">Todos</option>
             <option value="income">Entrada</option>
@@ -143,6 +165,7 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
             value={filters.category}
             valueChange={handleChange}
             label="Categoria"
+            className="max-w-none sm:basis-[48%]"
           >
             <option value="all">Todas</option>
             {categories.map((category, index) => (
@@ -151,24 +174,41 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
               </option>
             ))}
           </Select>
+          <div className="form-control w-full max-w-none sm:basis-[48%]">
+            <label htmlFor="createdAt" className="label">
+              <span className="label-text">Data</span>
+            </label>
+            <IMaskInput
+              mask="00/00/0000"
+              name="createdAt"
+              id="createdAt"
+              value={filters.createdAt}
+              onAccept={(value, mask, event) => handleMaskChange(value, event)}
+              required
+              placeholder="00/00/0000"
+              className="input input-bordered w-full max-w-xs"
+            />
+          </div>
           <Input
-            id="value"
-            type="text"
-            value={filters.value}
+            id="valueMin"
+            type="number"
+            value={filters.valueMin}
             valueChange={handleChange}
-            label="Valor (R$)"
+            label="Valor Mínimo (R$)"
             placeholder="Escreva aqui..."
+            className="max-w-none sm:basis-[48%]"
           />
           <Input
-            id="createdAt"
-            type="text"
-            value={filters.createdAt}
+            id="valueMax"
+            type="number"
+            value={filters.valueMax}
             valueChange={handleChange}
-            label="Data"
+            label="Valor Máximo (R$)"
             placeholder="Escreva aqui..."
+            className="max-w-none sm:basis-[48%]"
           />
           <button
-            className="btn btn-primary w-full max-w-xs"
+            className="btn btn-primary w-full"
             onClick={resetFiltersAndSorters}
           >
             Resetar Filtros
@@ -303,6 +343,30 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
             </tbody>
           </table>
         </div>
+      </article>
+      <article className="stats w-full overflow-x-auto border-[1px] border-neutral shadow-xl mt-8">
+        <Stat
+          title={`Total (${getEntries("", "", true)})`}
+          value={getFormattedValue(getEntries("", ""))}
+          description="Valor total das entradas e saídas."
+        />
+        <Stat
+          title={`Entradas (${getEntries("type", "income", true)})`}
+          value={getFormattedValue(getEntries("", "income"))}
+          description="Valor total somente das entradas."
+        />
+        <Stat
+          title={`Saídas (${getEntries("type", "expense", true)})`}
+          value={getFormattedValue(getEntries("type", "expense"))}
+          description="Valor total somente das saídas."
+        />
+        {filters.category !== "all" && (
+          <Stat
+            title={`Total - ${filters.category} (${getEntries("category", filters.category, true)})`}
+            value={getFormattedValue(getEntries("category", filters.category))}
+            description={`Valor total de gastos com (${filters.category})`}
+          />
+        )}
       </article>
     </>
   );

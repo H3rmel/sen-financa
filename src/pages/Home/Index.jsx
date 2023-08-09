@@ -10,7 +10,7 @@ import { useApp } from "@/contexts/app";
 import { MainLayout } from "@/layouts/Index";
 
 //* Components
-import { Stats, Table } from "@/components/Index";
+import { Table } from "@/components/Index";
 import {
   ModalAdd,
   ModalDelete,
@@ -84,15 +84,12 @@ export const Home = () => {
         </div>
       </section>
       <div className="divider" />
-      <section className="container flex flex-col items-center">
+      <section className="container flex flex-col justify-center">
         {transactions.length > 0 ? (
-          <>
-            <Table
-              openDeleteModal={openDeleteTransactionModal}
-              openEditModal={openEditTransactionModal}
-            />
-            <Stats />
-          </>
+          <Table
+            openDeleteModal={openDeleteTransactionModal}
+            openEditModal={openEditTransactionModal}
+          />
         ) : (
           <article className="alert alert-info w-fit mx-auto">
             <Info size={24} weight="bold" />
