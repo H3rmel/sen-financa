@@ -4,7 +4,7 @@ export const Navbar = () => {
   return (
     <nav className="sticky navbar px-4 bg-base-100 border-b-[1px] border-b-neutral">
       <section className="flex justify-between max-w-[1200px] w-full mx-auto">
-        <NavLink to="/" className="text-3xl duration-300 hover:scale-125">
+        <NavLink to="/" className="text-3xl duration-300 hover:scale-125 hover:no-underline">
           🪙
         </NavLink>
         <div className="flex flex-grow justify-end">

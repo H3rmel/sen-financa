@@ -1,8 +1,4 @@
 export const Modal = ({ id, title, children, className, open, setOpen }) => {
-  const closeModal = () => {
-    setOpen(false);
-  };
-
   return (
     <dialog id={id} className="modal bg-overlay" open={open}>
       <div className={`modal-box max-w-[800px] w-fit-content ${className}`}>
@@ -10,7 +6,7 @@ export const Modal = ({ id, title, children, className, open, setOpen }) => {
         {children}
       </div>
       <form method="dialog" className="modal-backdrop">
-        <button onClick={closeModal}>close</button>
+        <button onClick={() => setOpen(false)}>close</button>
       </form>
     </dialog>
   );

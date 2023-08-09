@@ -14,7 +14,7 @@ import { getFormattedValue } from "@/utils/formattedValue";
 
 //#endregion
 
-export const Table = ({}) => {
+export const Table = ({ openDeleteModal, openEditModal }) => {
   const { transactions } = useTransactions();
 
   return (
@@ -48,9 +48,7 @@ export const Table = ({}) => {
                     <td className="flex gap-2">
                       <div className="tooltip" data-tip="Remover">
                         <button
-                          onClick={() =>
-                            openRemoveTransactionModal(transaction.id)
-                          }
+                          onClick={() => openDeleteModal(transaction.id)}
                           className="btn btn-error btn-square text-white"
                         >
                           <TrashSimple size={20} weight="bold" />
@@ -58,9 +56,7 @@ export const Table = ({}) => {
                       </div>
                       <div className="tooltip" data-tip="Editar">
                         <button
-                          onClick={() =>
-                            openEditTransactionModal(transaction.id)
-                          }
+                          onClick={() => openEditModal(transaction.id)}
                           className="btn btn-primary btn-square"
                         >
                           <PencilSimple size={20} weight="bold" />

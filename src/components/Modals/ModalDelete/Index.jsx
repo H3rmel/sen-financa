@@ -18,6 +18,7 @@ export const ModalDelete = ({ id, open, setOpen }) => {
     deleteTransaction(id);
 
     updateTransactions();
+    setOpen(false);
   };
 
   return (
@@ -32,12 +33,12 @@ export const ModalDelete = ({ id, open, setOpen }) => {
         <p>Você tem certeza que deseja excluir esta transação? 🤔</p>
         <section className="modal-action flex gap-2 w-full">
           <button
-            className="btn btn-outline flex-grow"
             onClick={() => setOpen(false)}
+            className="btn btn-outline flex-grow"
           >
             Cancelar
           </button>
-          <button className="btn btn-error flex-grow" onClick={handleSubmit}>
+          <button onClick={handleSubmit} className="btn btn-error flex-grow">
             Remover
           </button>
         </section>

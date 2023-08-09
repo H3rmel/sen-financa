@@ -1,7 +1,7 @@
 //#region Imports
 
 //* React
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //* ContextAPI
 import { useTransactions } from "@/contexts/transactions";
@@ -10,20 +10,30 @@ import { useTransactions } from "@/contexts/transactions";
 import { Modal, Input, Select } from "../../Index";
 
 //* Services
-import { addTransaction } from "@/services/transactions";
+import { getTransactionById, updateTransaction } from "@/services/transactions";
 
 //* Utils
 import { updateState } from "@/utils/updateState";
 
 //#endregion
 
-export const ModalAdd = ({ open, setOpen }) => {
+export const ModalEdit = ({ id, open, setOpen }) => {
   const [newTransaction, setNewTransaction] = useState({
+    id: "",
     title: "",
     type: "",
     category: "",
-    value: 0,
+    value: "",
+    createdAt: "",
   });
+
+  useEffect(() => {
+    const oldTransaction = getTransactionById(id);
+    setNewTransaction((prevNewTransaction) => ({
+      ...prevNewTransaction,
+      ...oldTransaction,
+    }));
+  }, [id]);
 
   const { updateTransactions } = useTransactions();
 
@@ -34,28 +44,22 @@ export const ModalAdd = ({ open, setOpen }) => {
   };
 
   const handleSubmit = () => {
-    addTransaction({ ...newTransaction });
+    updateTransaction(id, newTransaction);
 
     updateTransactions();
-
-    setNewTransaction({
-      title: "",
-      type: "",
-      category: "",
-      value: 0,
-    });
     setOpen(false);
   };
 
   //#endregion
 
   return (
-    <Modal id="addTransaction" title="Adicionar Transação" open={open} setOpen={setOpen}>
-      <form
-        onSubmit={handleSubmit}
-        method="dialog"
-        className="flex justify-between flex-wrap mt-2"
-      >
+    <Modal
+      id="editTransaction"
+      title="Adicionar Transação"
+      open={open}
+      setOpen={setOpen}
+    >
+      <form method="dialog" className="flex justify-between flex-wrap mt-2">
         <Input
           id="title"
           type="text"
@@ -90,8 +94,20 @@ export const ModalAdd = ({ open, setOpen }) => {
           placeholder="Valor aqui..."
           label="Valor"
         />
-        <section className="modal-action flex w-full justify-end">
-          <button className="btn btn-primary" type="submit">Adicionar</button>
+        <section className="modal-action flex gap-2 w-full">
+          <button
+            onClick={() => setOpen(false)}
+            className="btn btn-outline flex-grow"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="btn btn-primary flex-grow"
+            type="submit"
+          >
+            Atualizar
+          </button>
         </section>
       </form>
     </Modal>

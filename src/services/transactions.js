@@ -75,7 +75,7 @@ const getAllTransactions = () => {
 };
 
 //* Get By Id
-const getTransactionsById = (id) => {
+const getTransactionById = (id) => {
   let transactions = getTransactions();
   return transactions.find((transaction) => transaction.id === id);
 };
@@ -89,7 +89,6 @@ const getEntries = (typeFilter) => {
     : transactions;
 
   const totalValue = filteredTransactions.reduce((accumulator, transaction) => {
-
     if (transaction.type === "income") {
       return accumulator + parseFloat(transaction.value);
     } else if (transaction.type === "expense") {
@@ -106,6 +105,6 @@ export {
   updateTransaction,
   deleteTransaction,
   getAllTransactions,
-  getTransactionsById,
+  getTransactionById,
   getEntries,
 };
