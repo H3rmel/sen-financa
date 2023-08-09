@@ -13,7 +13,7 @@ export const ErrorLayout = ({ pageTitle, message }) => {
 
   return (
     <main className="flex justify-center items-center w-full h-screen">
-      <article className="card w-5/12 bg-neutral shadow-xl">
+      <article className="card mx-4 sm:w-5/12 bg-neutral shadow-xl">
         <div className="card-body">
           <h2 className="card-title">{pageTitle}</h2>
           <p>{message}</p>

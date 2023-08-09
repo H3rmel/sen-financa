@@ -1,4 +1,4 @@
-const getFormattedDate = () => {
+export const getFormattedDate = () => {
   const currentDate = new Date();
 
   const day = String(currentDate.getDate()).padStart(2, "0");
@@ -7,5 +7,3 @@ const getFormattedDate = () => {
 
   return `${day}/${month}/${year}`;
 };
-
-export { getFormattedDate };

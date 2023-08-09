@@ -9,6 +9,9 @@ export default {
       fontFamily: {
         base: ["Outfit", "sans-serif"],
       },
+      backgroundColor: {
+        overlay: "rgba(0, 0, 0, 0.5)"
+      }
     },
   },
   plugins: [require("daisyui")],

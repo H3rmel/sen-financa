@@ -17,7 +17,7 @@ import { updateState } from "@/utils/updateState";
 
 //#endregion
 
-export const ModalNewTransaction = () => {
+export const ModalNewTransaction = ({ open, setOpen }) => {
   const [newTransaction, setNewTransaction] = useState({
     title: "",
     type: "",
@@ -45,7 +45,7 @@ export const ModalNewTransaction = () => {
   };
 
   return (
-    <Modal id="addTransaction" title="Adicionar Transação">
+    <Modal id="addTransaction" title="Adicionar Transação" open={open} setOpen={setOpen}>
       <form
         onSubmit={handleSubmit}
         method="dialog"
@@ -86,7 +86,7 @@ export const ModalNewTransaction = () => {
           label="Valor"
         />
         <section className="modal-action flex w-full justify-end">
-          <button className="btn btn-primary">Adicionar</button>
+          <button className="btn btn-primary" type="submit">Adicionar</button>
         </section>
       </form>
     </Modal>
