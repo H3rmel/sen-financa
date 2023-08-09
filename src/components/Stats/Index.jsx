@@ -53,6 +53,11 @@ export const Stats = () => {
         value={getFormattedValue(totalExpenses)}
         description="Valor total somente das saídas."
       />
+      <Stat
+        title="teste"
+        value="teste"
+        description="teste"
+      />
     </article>
   );
 };
