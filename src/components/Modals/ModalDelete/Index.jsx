@@ -1,10 +1,10 @@
 //#region Imports
 
-//* ContextAPI
+//* Context API
 import { useTransactions } from "@/contexts/transactions";
 
-//* Components UI
-import { Modal } from "../../Index";
+//* Components/UI
+import { Modal } from "@/components/Index";
 
 //* Services
 import { deleteTransaction } from "@/services/transactions";

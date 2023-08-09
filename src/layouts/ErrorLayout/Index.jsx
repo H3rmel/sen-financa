@@ -1,7 +1,9 @@
 //#region Imports
 
+//* React
 import { useEffect } from "react";
 
+//* React Router
 import { Link } from "react-router-dom";
 
 //#endregion

@@ -3,10 +3,10 @@
 //* React
 import { useMemo } from "react";
 
-//* ContextAPI
+//* Context API
 import { useTransactions } from "@/contexts/transactions";
 
-//* Components
+//* Components/UI
 import { Stat } from "../Index";
 
 //* Services
@@ -37,7 +37,7 @@ export const Stats = () => {
   //#endregion
 
   return (
-    <article className="stats shadow-xl mt-8 mx-auto">
+    <article className="stats border-[1px] border-neutral shadow-xl mt-8 mx-auto">
       <Stat
         title="Total"
         value={getFormattedValue(totalEntries)}

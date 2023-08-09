@@ -14,7 +14,7 @@ export const About = () => {
           Sobre o projeto
         </h1>
         <div className="divider mt-2" />
-        <article className="flex gap-8 items-center">
+        <article className="flex flex-col sm:flex-row gap-4 sm:gap-8 items-center">
           <div className="tooltip tooltip-bottom" data-tip="E aí, beleza?">
             <div className="avatar">
               <div className="w-32 rounded-full">
@@ -26,7 +26,7 @@ export const About = () => {
               </div>
             </div>
           </div>
-          <p className="w-[65%]">
+          <p className="sm:w-[65%]">
             O <span className="italic">SenFinança </span>🪙 é um webapp
             desenvolvindo por mim (Isaac Hermel Reginato) como parte do teste
             técnico realizado no processo seletivo para a vaga de Analista Front

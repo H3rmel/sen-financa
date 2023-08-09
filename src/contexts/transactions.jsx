@@ -16,7 +16,7 @@ import { getAllTransactions } from "@/services/transactions";
 
 const TransactionContext = createContext();
 
-export const TransactionProvider = ({ children }) => {
+const TransactionProvider = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
 
   const updateTransactions = useCallback(() => {
@@ -37,6 +37,8 @@ export const TransactionProvider = ({ children }) => {
   );
 };
 
-export const useTransactions = () => {
+const useTransactions = () => {
   return useContext(TransactionContext);
 };
+
+export { TransactionProvider, useTransactions };

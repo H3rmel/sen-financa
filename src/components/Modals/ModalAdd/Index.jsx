@@ -3,11 +3,11 @@
 //* React
 import { useState } from "react";
 
-//* ContextAPI
+//* Context API
 import { useTransactions } from "@/contexts/transactions";
 
-//* Components UI
-import { Modal, Input, Select } from "../../Index";
+//* Components/UI
+import { Modal, Input, Select } from "@/components/Index";
 
 //* Services
 import { addTransaction } from "@/services/transactions";

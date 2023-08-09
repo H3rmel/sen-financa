@@ -8,7 +8,7 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 
-//* ContextAPI
+//* Context API
 import { TransactionProvider } from "./contexts/transactions";
 
 //#endregion
