@@ -1,4 +1,10 @@
+//#region Imports
+
 import { MainLayout } from "@/layouts/Index";
+
+import { Envelope, GithubLogo, LinkedinLogo } from "@phosphor-icons/react";
+
+//#endregion
 
 export const About = () => {
   return (
@@ -39,93 +45,101 @@ export const About = () => {
         <h2 className="text-2xl mt-4">Tecnologias 🛠️</h2>
         <div className="divider mt-2" />
         <p>Para este projeto foram utilizadas as seguintes tecnologias:</p>
-        <ul className="list-disc list-inside mt-4">
-          <li>
+        <ul className="flex flex-wrap gap-2 mt-4">
+          <li className="tooltip tooltip-top" data-tip="React, React Router">
             <a
               href="https://react.dev/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              React
-            </a>
-            <ul className="list-disc list-inside ml-4">
-              <li>
-                <a
-                  href="https://reactrouter.com/en/main"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  React Router
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a
-              href="https://tailwindcss.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              TailwindCSS
-            </a>
-            <ul className="list-disc list-inside ml-4">
-              <li>
-                <a
-                  href="https://postcss.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Postcss
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/postcss/autoprefixer"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Autoprefixer
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a
-              href="https://daisyui.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              DaisyUI
+              <img src="https://skillicons.dev/icons?i=react" />
             </a>
           </li>
-          <li>
+          <li className="tooltip tooltip-top" data-tip="ViteJS">
             <a
               href="https://vitejs.dev/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              ViteJS
+              <img src="https://skillicons.dev/icons?i=vite" />
             </a>
           </li>
-          <li>
+          <li
+            className="tooltip tooltip-top"
+            data-tip="Tailwind CSS, DaisyUI, Postcss, Autoprefixer"
+          >
             <a
-              href="https://phosphoricons.com/"
+              href="https://tailwindcss.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Phosphor Icons
+              <img src="https://skillicons.dev/icons?i=tailwind" />
             </a>
           </li>
-          <li>
+          <li
+            className="tooltip tooltip-top"
+            data-tip="JavaScript, LocalStorage, ES6, ESLint"
+          >
             <a
-              href="https://eslint.org/"
+              href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript"
               target="_blank"
               rel="noopener noreferrer"
             >
-              ESLint
+              <img src="https://skillicons.dev/icons?i=js" />
+            </a>
+          </li>
+          <li className="tooltip tooltip-top" data-tip="Vercel">
+            <a
+              href="https://vercel.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="https://skillicons.dev/icons?i=vercel" />
+            </a>
+          </li>
+          <li className="tooltip tooltip-top" data-tip="VSCode">
+            <a
+              href="https://code.visualstudio.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="https://skillicons.dev/icons?i=vscode" />
             </a>
           </li>
         </ul>
+        <h2 className="text-2xl mt-4">Contato 🛠️</h2>
+        <div className="divider mt-2" />
+        <p>
+          Para entrar em contato comigo você pode usar qualquer uma das
+          seguintes opções:
+        </p>
+        <article className="flex flex-wrap gap-4 mt-4">
+          <a
+            href="mailto:isaachermel@gmail.com"
+            className="btn btn-primary flex-grow hover:no-underline"
+          >
+            <Envelope size={20} weight="bold" />
+            E-mail
+          </a>
+          <a
+            href="https://www.linkedin.com/in/isaacherml"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary flex-grow hover:no-underline"
+          >
+            <LinkedinLogo size={20} weight="bold" />
+            LinkedIn
+          </a>
+          <a
+            href="https://github.com/h3rmel"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary flex-grow hover:no-underline"
+          >
+            <GithubLogo size={20} weight="bold" />
+            GitHub
+          </a>
+        </article>
       </section>
     </MainLayout>
   );
