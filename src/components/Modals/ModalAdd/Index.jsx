@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useTransactions } from "@/contexts/transactions";
 
 //* Components UI
-import { Modal, Input, Select } from "../Index";
+import { Modal, Input, Select } from "../../Index";
 
 //* Services
 import { addTransaction } from "@/services/transactions";
@@ -17,7 +17,7 @@ import { updateState } from "@/utils/updateState";
 
 //#endregion
 
-export const ModalNewTransaction = ({ open, setOpen }) => {
+export const ModalAdd = ({ open, setOpen }) => {
   const [newTransaction, setNewTransaction] = useState({
     title: "",
     type: "",
@@ -65,8 +65,8 @@ export const ModalNewTransaction = ({ open, setOpen }) => {
           valueChange={handleChange}
           label="Tipo"
         >
-          <option value="entry">Entrada</option>
-          <option value="output">Sáida</option>
+          <option value="income">Entrada</option>
+          <option value="expense">Sáida</option>
         </Select>
         <Select
           id="category"

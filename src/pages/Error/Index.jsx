@@ -1,4 +1,10 @@
+//#region Imports
+
 import { ErrorLayout } from "@/layouts/Index";
+
+import { useRouteError } from "react-router-dom";
+
+//#endregion
 
 export const Error = () => {
   const error = useRouteError();

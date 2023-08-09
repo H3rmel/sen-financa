@@ -7,8 +7,8 @@ import { useState } from "react";
 import { MainLayout } from "@/layouts/Index";
 
 //* Components
-import { Table } from "@/components/Index";
-import { ModalNewTransaction } from "@/components/Modals/ModalNewTransaction";
+import { Stats, Table } from "@/components/Index";
+import { ModalAdd, ModalDelete } from "@/components/Modals/Index";
 
 //* Icons
 import { Plus } from "@phosphor-icons/react";
@@ -17,10 +17,28 @@ import { Plus } from "@phosphor-icons/react";
 
 export const Home = () => {
   const [openModalAdd, setOpenModalAdd] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+
+  const [selectModalId, setSelectModalId] = useState(0);
+
+  //#region Methods
 
   const openAddTransactionModal = () => {
     setOpenModalAdd(true);
   };
+
+  const openDeleteTransactionModal = (id) => {
+    setOpenModalDelete(true);
+    setSelectModalId(id);
+  };
+
+  const openEditTransactionModal = (id) => {
+    setOpenModalEdit(true);
+    setSelectModalId(id);
+  };
+
+  //#endregion
 
   return (
     <MainLayout pageTitle="Home">
@@ -37,8 +55,12 @@ export const Home = () => {
         </button>
       </section>
       <div className="divider"></div>
-      <Table />
-      <ModalNewTransaction open={openModalAdd} setOpen={setOpenModalAdd} />
+      <section className="container flex flex-col items-center">
+        <Table />
+        <Stats />
+      </section>
+      <ModalAdd open={openModalAdd} setOpen={setOpenModalAdd} />
+      <ModalDelete open={openModalDelete} setOpen={setOpenModalDelete} />
     </MainLayout>
   );
 };

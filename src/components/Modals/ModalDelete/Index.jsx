@@ -4,14 +4,14 @@
 import { useTransactions } from "@/contexts/transactions";
 
 //* Components UI
-import { Modal } from "../Index";
+import { Modal } from "../../Index";
 
 //* Services
-import { deleteTransaction, updateTransaction } from "@/services/transactions";
+import { deleteTransaction } from "@/services/transactions";
 
 //#endregion
 
-export const ModalRemoveTransaction = ({ id, open, setOpen }) => {
+export const ModalDelete = ({ id, open, setOpen }) => {
   const { updateTransactions } = useTransactions();
 
   const handleSubmit = () => {

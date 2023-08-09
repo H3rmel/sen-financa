@@ -38,7 +38,7 @@ const addTransaction = ({ title, type, category, value }) => {
     title,
     type,
     category,
-    value,
+    parseFloat(value),
     createdAt
   );
 
@@ -76,8 +76,29 @@ const getAllTransactions = () => {
 
 //* Get By Id
 const getTransactionsById = (id) => {
-  const transaction = getTransactions();
-  return transaction.find((transaction) => transaction.id === id);
+  let transactions = getTransactions();
+  return transactions.find((transaction) => transaction.id === id);
+};
+
+//* Get total value of entries
+const getEntries = (typeFilter) => {
+  const transactions = getTransactions();
+
+  const filteredTransactions = typeFilter
+    ? transactions.filter((transaction) => transaction.type === typeFilter)
+    : transactions;
+
+  const totalValue = filteredTransactions.reduce((accumulator, transaction) => {
+
+    if (transaction.type === "income") {
+      return accumulator + parseFloat(transaction.value);
+    } else if (transaction.type === "expense") {
+      return accumulator - parseFloat(transaction.value);
+    }
+    return accumulator;
+  }, 0);
+
+  return totalValue;
 };
 
 export {
@@ -86,4 +107,5 @@ export {
   deleteTransaction,
   getAllTransactions,
   getTransactionsById,
+  getEntries,
 };
