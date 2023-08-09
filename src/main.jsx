@@ -9,7 +9,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 
 //* Context API
-import { TransactionProvider } from "./contexts/transactions";
+import { AppProvider } from "./contexts/app";
 
 //#endregion
 
@@ -19,8 +19,8 @@ const app = createRoot(document.getElementById("app"));
 
 app.render(
   <StrictMode>
-    <TransactionProvider>
+    <AppProvider>
       <RouterProvider router={router} />
-    </TransactionProvider>
+    </AppProvider>
   </StrictMode>
 );

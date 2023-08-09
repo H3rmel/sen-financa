@@ -1,7 +1,7 @@
 //#region Imports
 
 //* Context API
-import { useTransactions } from "@/contexts/transactions";
+import { useApp } from "@/contexts/app";
 
 //* Components/UI
 import { Modal } from "@/components/Index";
@@ -12,9 +12,17 @@ import { deleteTransaction } from "@/services/transactions";
 //#endregion
 
 export const ModalDelete = ({ id, open, setOpen }) => {
-  const { updateTransactions } = useTransactions();
+  const { updateTransactions } = useApp();
 
-  const handleSubmit = () => {
+  //#region Methods
+
+  const handleClose = (event) => {
+    event.preventDefault();
+    setOpen(false);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
     deleteTransaction(id);
 
     updateTransactions();
@@ -26,16 +34,12 @@ export const ModalDelete = ({ id, open, setOpen }) => {
       id="removeTransaction"
       title="Remover transação"
       open={open}
-      setOpen={setOpen}
       className="max-w-none w-fit"
     >
-      <form method="dialog" className="flex justify-between flex-wrap mt-2">
+      <form className="flex justify-between flex-wrap mt-2">
         <p>Você tem certeza que deseja excluir esta transação? 🤔</p>
         <section className="modal-action flex gap-2 w-full">
-          <button
-            onClick={() => setOpen(false)}
-            className="btn btn-outline flex-grow"
-          >
+          <button onClick={handleClose} className="btn btn-outline flex-grow">
             Cancelar
           </button>
           <button onClick={handleSubmit} className="btn btn-error flex-grow">

@@ -4,7 +4,7 @@
 import { useMemo } from "react";
 
 //* Context API
-import { useTransactions } from "@/contexts/transactions";
+import { useApp } from "@/contexts/app";
 
 //* Components/UI
 import { Stat } from "../Index";
@@ -18,7 +18,7 @@ import { getFormattedValue } from "@/utils/formattedValue";
 //#endregion
 
 export const Stats = () => {
-  const { transactions } = useTransactions();
+  const { transactions } = useApp();
 
   //#region useMemos
 
@@ -37,7 +37,7 @@ export const Stats = () => {
   //#endregion
 
   return (
-    <article className="stats border-[1px] border-neutral shadow-xl mt-8 mx-auto">
+    <article className="stats w-full overflow-x-auto border-[1px] border-neutral shadow-xl mt-8 mx-auto">
       <Stat
         title="Total"
         value={getFormattedValue(totalEntries)}

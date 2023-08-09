@@ -4,22 +4,23 @@
 import { useState } from "react";
 
 //* Context API
-import { useTransactions } from "@/contexts/transactions";
+import { useApp } from "@/contexts/app";
 
 //* Layout
 import { MainLayout } from "@/layouts/Index";
 
 //* Components
 import { Stats, Table } from "@/components/Index";
-import { ModalAdd, ModalDelete, ModalEdit } from "@/components/Modals/Index";
+import { ModalAdd, ModalDelete, ModalEdit, ModalCategories } from "@/components/Modals/Index";
 
 //* Icons
 import { Plus, Info } from "@phosphor-icons/react";
-import { ModalCategories } from "@/components/Modals/ModalCategories/Index";
 
 //#endregion
 
 export const Home = () => {
+  //#region States and Variables
+
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -27,7 +28,9 @@ export const Home = () => {
 
   const [selectedModalId, setSelectedModalId] = useState(0);
 
-  const { transactions } = useTransactions();
+  const { transactions } = useApp();
+
+  //#endregion
 
   //#region Methods
 
@@ -55,11 +58,11 @@ export const Home = () => {
     <MainLayout pageTitle="Home">
       <section className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-center container">
         <hgroup>
-          <h1 className="text-3xl font-semibold tracking-wider">SenFinança</h1>
-          <p className="text-sm">Seu webapp de finanças pessoais!</p>
+          <h1 className="text-4xl font-semibold tracking-wider">SenFinança</h1>
+          <p className="text-sm text-neutral-400">Seu aplicativo de finanças pessoais!</p>
         </hgroup>
-        <div className="space-x-4">
-          <button className="btn btn-primary" onClick={openModalCategories}>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <button className="btn btn-primary w-full sm:w-auto" onClick={openModalCategories}>
             Categorias
           </button>
           <button
@@ -100,7 +103,7 @@ export const Home = () => {
       />
       <ModalCategories
         open={openModalCategoriesCRUD}
-        setOpen={openModalCategoriesCRUD}
+        setOpen={setOpenModalCategoriesCRUD}
       />
     </MainLayout>
   );

@@ -1,15 +1,17 @@
 export const Select = ({
   id,
   label,
+  required,
   children,
   value,
   valueChange,
   rightLabel,
   bottomLabel,
   bottomRightLabel,
+  className
 }) => {
   return (
-    <div className="form-control w-full max-w-xs">
+    <div className={`form-control w-full max-w-xs ${className}`}>
       {(label || rightLabel) && (
         <label className="label" htmlFor={id}>
           {label && <span className="label-text">{label}</span>}
@@ -22,6 +24,7 @@ export const Select = ({
         className="select select-bordered"
         value={value}
         onChange={valueChange}
+        required={required}
       >
         <option disabled>
           Selecione uma

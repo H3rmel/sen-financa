@@ -1,10 +1,10 @@
 //#region Imports
 
 //* React
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 //* Context API
-import { useTransactions } from "@/contexts/transactions";
+import { useApp } from "@/contexts/app";
 
 //* Components/UI
 import { Modal, Input, Select } from "@/components/Index";
@@ -14,28 +14,45 @@ import { addTransaction } from "@/services/transactions";
 
 //* Utils
 import { updateState } from "@/utils/updateState";
+import { isObjectComplete } from "@/utils/isObjectComplete";
 
 //#endregion
 
 export const ModalAdd = ({ open, setOpen }) => {
+  //#region States and Variables
+
   const [newTransaction, setNewTransaction] = useState({
     title: "",
-    type: "",
+    type: "income",
     category: "",
     value: 0,
   });
 
-  const { updateTransactions } = useTransactions();
+  const fieldsCompleted = useMemo(
+    () =>
+      isObjectComplete(newTransaction, ["title", "type", "category", "value"]),
+    [newTransaction]
+  );
+
+  const { updateTransactions, categories } = useApp();
+
+  //#endregion
 
   //#region Methods
+
+  const handleClose = (event) => {
+    event.preventDefault();
+    setOpen(false);
+  };
 
   const handleChange = (event) => {
     updateState(event, setNewTransaction);
   };
 
-  const handleSubmit = () => {
-    addTransaction({ ...newTransaction });
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
+    addTransaction({ ...newTransaction });
     updateTransactions();
 
     setNewTransaction({
@@ -50,12 +67,8 @@ export const ModalAdd = ({ open, setOpen }) => {
   //#endregion
 
   return (
-    <Modal id="addTransaction" title="Adicionar Transação" open={open} setOpen={setOpen}>
-      <form
-        onSubmit={handleSubmit}
-        method="dialog"
-        className="flex justify-between flex-wrap mt-2"
-      >
+    <Modal id="addTransaction" title="Adicionar Transação" open={open}>
+      <form className="flex justify-between flex-wrap mt-2">
         <Input
           id="title"
           type="text"
@@ -79,8 +92,11 @@ export const ModalAdd = ({ open, setOpen }) => {
           valueChange={handleChange}
           label="Categoria"
         >
-          <option value="saude">Saúde</option>
-          <option value="transporte">Transporte</option>
+          {categories.map((category, index) => (
+            <option key={index} value={category.name} className="capitalize">
+              {category.name}
+            </option>
+          ))}
         </Select>
         <Input
           id="value"
@@ -90,8 +106,21 @@ export const ModalAdd = ({ open, setOpen }) => {
           placeholder="Valor aqui..."
           label="Valor"
         />
-        <section className="modal-action flex w-full justify-end">
-          <button className="btn btn-primary" type="submit">Adicionar</button>
+        <section className="modal-action flex gap-2 w-full">
+          <button
+            onClick={handleClose}
+            className="btn btn-outline btn-error flex-grow"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handleSubmit}
+            className={`btn btn-primary flex-grow ${
+              fieldsCompleted ? "" : "btn-disabled"
+            }`}
+          >
+            Adicionar
+          </button>
         </section>
       </form>
     </Modal>

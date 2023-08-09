@@ -5,12 +5,14 @@ export const Input = ({
   valueChange,
   value,
   label,
+  required,
   rightLabel,
   bottomLabel,
   bottomRightLabel,
+  className
 }) => {
   return (
-    <div className="form-control w-full max-w-xs">
+    <div className={`form-control w-full max-w-xs ${className}`}>
       {(label || rightLabel) && (
         <label className="label" htmlFor={id}>
           {label && <span className="label-text">{label}</span>}
@@ -24,6 +26,7 @@ export const Input = ({
         value={value}
         onChange={valueChange}
         placeholder={placeholder}
+        required={required}
         className="input input-bordered w-full max-w-xs"
       />
       {(bottomLabel || bottomRightLabel) && (

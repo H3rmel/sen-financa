@@ -1,7 +1,9 @@
 //#region Imports
 
+//* Layout
 import { MainLayout } from "@/layouts/Index";
 
+//* Icons
 import { Envelope, GithubLogo, LinkedinLogo } from "@phosphor-icons/react";
 
 //#endregion
@@ -45,7 +47,7 @@ export const About = () => {
         <h2 className="text-2xl mt-4">Tecnologias 🛠️</h2>
         <div className="divider mt-2" />
         <p>Para este projeto foram utilizadas as seguintes tecnologias:</p>
-        <ul className="flex flex-wrap gap-2 mt-4">
+        <ul className="flex flex-wrap justify-center sm:justify-start gap-2 mt-4">
           <li className="tooltip tooltip-top" data-tip="React, React Router">
             <a
               href="https://react.dev/"
@@ -107,7 +109,7 @@ export const About = () => {
             </a>
           </li>
         </ul>
-        <h2 className="text-2xl mt-4">Contato 🛠️</h2>
+        <h2 className="text-2xl mt-4">Contato 📞</h2>
         <div className="divider mt-2" />
         <p>
           Para entrar em contato comigo você pode usar qualquer uma das

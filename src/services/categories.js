@@ -2,17 +2,21 @@
 //* Código responsável pelo CRUD de categorias usando localStorage
 //*
 
+import { initialCategories } from "@/constants/initialCategories.json";
+
 const CATEGORY_STORAGE_KEY = "sf-categories";
 
 //* Garante que as categorias possuam a estrutura correta
-const Category = (id, name) => ({
-  id,
-  name,
-});
+class Category {
+  constructor(id, name) {
+    this.id = id;
+    this.name = name;
+  }
+}
 
 //* Métodos genêricos para retornar e salvar categorias
 const getCategories = () => {
-  return JSON.parse(localStorage.getItem(CATEGORY_STORAGE_KEY)) || [];
+  return JSON.parse(localStorage.getItem(CATEGORY_STORAGE_KEY)) || initialCategories;
 };
 
 const saveCategories = (categories) => {
@@ -20,14 +24,16 @@ const saveCategories = (categories) => {
 };
 
 //* Create
-const addCategory = (name) => {
+const addCategory = ({ name }) => {
   const id = new Date().getTime();
 
   const newCategory = new Category(id, name);
 
   let categories = getCategories();
-  categories.push(newCategory);
+
+  categories.unshift(newCategory);
   saveCategories(categories);
+
   return newCategory;
 };
 
@@ -51,13 +57,13 @@ const deleteCategory = (id) => {
 };
 
 //* Get All
-function getAllCategories() {
-  return getAllCategories();
+const getAllCategories = () => {
+  return getCategories();
 }
 
 //* Get By Id
-function getCategoryById(id) {
-  const categories = getCategoriesFromStorage();
+const getCategoryById = (id) => {
+  let categories = getCategoriesFromStorage();
   return categories.find((category) => category.id === id);
 }
 

@@ -1,10 +1,10 @@
 //#region Imports
 
 //* React
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 //* Context API
-import { useTransactions } from "@/contexts/transactions";
+import { useApp } from "@/contexts/app";
 
 //* Components/UI
 import { Modal, Input, Select } from "@/components/Index";
@@ -14,10 +14,13 @@ import { getTransactionById, updateTransaction } from "@/services/transactions";
 
 //* Utils
 import { updateState } from "@/utils/updateState";
+import { isObjectComplete } from "@/utils/isObjectComplete";
 
 //#endregion
 
 export const ModalEdit = ({ id, open, setOpen }) => {
+  //#region States and Variables
+
   const [newTransaction, setNewTransaction] = useState({
     id: "",
     title: "",
@@ -27,6 +30,38 @@ export const ModalEdit = ({ id, open, setOpen }) => {
     createdAt: "",
   });
 
+  const fieldsCompleted = useMemo(() => {
+    return isObjectComplete(newTransaction, [
+      "title",
+      "type",
+      "category",
+      "value",
+    ]);
+  }, [newTransaction]);
+
+  const { updateTransactions } = useApp();
+
+  //#endregion
+
+  //#region Methods
+
+  const handleClose = (event) => {
+    event.preventDefault();
+    setOpen(false);
+  };
+
+  const handleChange = (event) => {
+    updateState(event, setNewTransaction);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    updateTransaction(id, newTransaction);
+
+    updateTransactions();
+    setOpen(false);
+  };
+
   useEffect(() => {
     const oldTransaction = getTransactionById(id);
     setNewTransaction((prevNewTransaction) => ({
@@ -35,31 +70,11 @@ export const ModalEdit = ({ id, open, setOpen }) => {
     }));
   }, [id]);
 
-  const { updateTransactions } = useTransactions();
-
-  //#region Methods
-
-  const handleChange = (event) => {
-    updateState(event, setNewTransaction);
-  };
-
-  const handleSubmit = () => {
-    updateTransaction(id, newTransaction);
-
-    updateTransactions();
-    setOpen(false);
-  };
-
   //#endregion
 
   return (
-    <Modal
-      id="editTransaction"
-      title="Adicionar Transação"
-      open={open}
-      setOpen={setOpen}
-    >
-      <form method="dialog" className="flex justify-between flex-wrap mt-2">
+    <Modal id="editTransaction" title="Adicionar Transação" open={open}>
+      <form className="flex justify-between flex-wrap mt-2">
         <Input
           id="title"
           type="text"
@@ -96,14 +111,16 @@ export const ModalEdit = ({ id, open, setOpen }) => {
         />
         <section className="modal-action flex gap-2 w-full">
           <button
-            onClick={() => setOpen(false)}
-            className="btn btn-outline flex-grow"
+            onClick={handleClose}
+            className="btn btn-outline btn-error flex-grow"
           >
             Cancelar
           </button>
           <button
             onClick={handleSubmit}
-            className="btn btn-primary flex-grow"
+            className={`btn btn-primary flex-grow ${
+              fieldsCompleted ? "" : "btn-disabled"
+            }`}
             type="submit"
           >
             Atualizar
