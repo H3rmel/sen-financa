@@ -15,17 +15,19 @@ import { ModalAdd, ModalDelete, ModalEdit } from "@/components/Modals/Index";
 
 //* Icons
 import { Plus, Info } from "@phosphor-icons/react";
+import { ModalCategories } from "@/components/Modals/ModalCategories/Index";
 
 //#endregion
 
 export const Home = () => {
-  const { transactions } = useTransactions();
-
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [openModalCategoriesCRUD, setOpenModalCategoriesCRUD] = useState(false);
 
   const [selectedModalId, setSelectedModalId] = useState(0);
+
+  const { transactions } = useTransactions();
 
   //#region Methods
 
@@ -43,6 +45,10 @@ export const Home = () => {
     setSelectedModalId(id);
   };
 
+  const openModalCategories = () => {
+    setOpenModalCategoriesCRUD(true);
+  };
+
   //#endregion
 
   return (
@@ -53,7 +59,9 @@ export const Home = () => {
           <p className="text-sm">Seu webapp de finanças pessoais!</p>
         </hgroup>
         <div className="space-x-4">
-          <button className="btn btn-primary">Categorias</button>
+          <button className="btn btn-primary" onClick={openModalCategories}>
+            Categorias
+          </button>
           <button
             onClick={openAddTransactionModal}
             className="btn btn-primary w-full sm:w-auto"
@@ -89,6 +97,10 @@ export const Home = () => {
         id={selectedModalId}
         open={openModalEdit}
         setOpen={setOpenModalEdit}
+      />
+      <ModalCategories
+        open={openModalCategoriesCRUD}
+        setOpen={openModalCategoriesCRUD}
       />
     </MainLayout>
   );
