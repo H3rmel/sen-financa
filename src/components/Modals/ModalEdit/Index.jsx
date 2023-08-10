@@ -1,26 +1,29 @@
 //#region Imports
 
-//* React
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useContext } from "react";
 
-//* Context API
-import { useApp } from "@/contexts/app";
+import { AppContext } from "@/contexts/app";
 
-//* Components/UI
 import { Modal, Input, Select } from "@/components/Index";
 
-//* Services
 import { getTransactionById, updateTransaction } from "@/services/transactions";
 
-//* Utils
 import { updateState } from "@/utils/updateState";
 import { isObjectComplete } from "@/utils/isObjectComplete";
 
 //#endregion
 
+/**
+ * Componente de modal para edição de uma transação existente.
+ *
+ * @param {Object} props - As propriedades do componente.
+ * @param {number} props.id - O ID da transação a ser editada.
+ * @param {boolean} props.open - Indica se o modal está aberto.
+ * @param {function} props.setOpen - Função para controlar o estado do modal.
+ * @returns {JSX.Element} O componente de modal para edição de uma transação.
+ */
 export const ModalEdit = ({ id, open, setOpen }) => {
-  //#region States and Variables
-
+  // Estado para armazenar os campos da nova transação em edição
   const [newTransaction, setNewTransaction] = useState({
     id: "",
     title: "",
@@ -30,6 +33,7 @@ export const ModalEdit = ({ id, open, setOpen }) => {
     createdAt: "",
   });
 
+  // Calcula se todos os campos foram preenchidos
   const fieldsCompleted = useMemo(() => {
     return isObjectComplete(newTransaction, [
       "title",
@@ -39,29 +43,49 @@ export const ModalEdit = ({ id, open, setOpen }) => {
     ]);
   }, [newTransaction]);
 
-  const { updateTransactions, categories } = useApp();
-
-  //#endregion
+  // Obtém o contexto da aplicação para acesso a transações e categorias
+  const { updateTransactions, categories } = useContext(AppContext);
 
   //#region Methods
 
+  /**
+   * Manipula o fechamento do modal.
+   *
+   * @param {Event} event - O evento de clique.
+   */
   const handleClose = (event) => {
     event.preventDefault();
     setOpen(false);
   };
 
+  /**
+   * Manipula as mudanças nos campos do formulário.
+   *
+   * @param {Event} event - O evento de mudança.
+   */
   const handleChange = (event) => {
     updateState(event, setNewTransaction);
   };
 
+  /**
+   * Manipula o envio do formulário.
+   *
+   * @param {Event} event - O evento de envio.
+   */
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Atualiza a transação usando o ID fornecido
     updateTransaction(id, newTransaction);
 
+    // Atualiza as transações após a edição
     updateTransactions();
+
+    // Fecha o Modal
     setOpen(false);
   };
 
+  // Preenche o formulário com os dados da transação a ser editada
   useEffect(() => {
     const oldTransaction = getTransactionById(id);
     setNewTransaction((prevNewTransaction) => ({

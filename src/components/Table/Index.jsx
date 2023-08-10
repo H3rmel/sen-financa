@@ -1,18 +1,13 @@
 //#region Imports
 
-//* React
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 
-//* Context API
-import { useApp } from "@/contexts/app";
+import { AppContext } from "@/contexts/app";
 
-//* Components/UI
 import { Select, Input, Stat } from "@/components/Index";
 
-//* IMask
 import { IMaskInput } from "react-imask";
 
-//* Icons
 import {
   ArrowDown,
   ArrowUp,
@@ -20,16 +15,25 @@ import {
   TrashSimple,
 } from "@phosphor-icons/react";
 
-//* Utils
 import { updateState, updateStateMaskedInput } from "@/utils/updateState";
 import { getFormattedValue } from "@/utils/formattedValue";
 import { getEntries } from "@/services/transactions";
 
 //#endregion
 
+/**
+ * Componente que exibe um conjunto de filtros, uma tabela de transações e estatísticas relacionadas.
+ *
+ * Este componente exibe uma seção com opções de filtragem, uma tabela de transações ordenável
+ * e estatísticas resumidas relacionadas às transações exibidas.
+ *
+ * @param {Object} props - As propriedades do componente.
+ * @param {function} props.openDeleteModal - Função para abrir o modal de exclusão de transação.
+ * @param {function} props.openEditModal - Função para abrir o modal de edição de transação.
+ * @returns {JSX.Element} O componente que exibe filtros, tabela de transações e estatísticas.
+ */
 export const Table = ({ openDeleteModal, openEditModal }) => {
-  //#region States and Variables
-
+  // Estados para os filtros e classificação
   const [filters, setFilters] = useState({
     type: "all",
     category: "all",
@@ -44,13 +48,17 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
     order: "asc",
   });
 
-  const { transactions, categories } = useApp();
-
-  //#endregion
+  // Obtém os dados de transações e categorias do contexto
+  const { transactions, categories } = useContext(AppContext);
 
   //#region Methods
 
-  //* Sort
+  /**
+   * Manipula a ação de ordenação das transações com base no campo e na ordem especificados.
+   *
+   * @param {string} field - O campo pelo qual as transações devem ser ordenadas.
+   * @param {string} order - A ordem de ordenação, que pode ser "asc" (ascendente) ou "desc" (descendente).
+   */
   const handleSort = (field, order) => {
     setSorter({
       field: field,
@@ -58,6 +66,11 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
     });
   };
 
+  /**
+   * Ordena as transações com base nos critérios de ordenação definidos.
+   *
+   * @returns {Array} Uma matriz de transações ordenadas de acordo com os critérios de ordenação definidos.
+   */
   const sortedTransactions = useMemo(() => {
     let sorted = [...transactions];
 
@@ -66,6 +79,7 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
         const valueA = a[sorter.field];
         const valueB = b[sorter.field];
 
+        // Verifica se os valores são números para ordenação númerica ou strings para ordenação alfabética
         if (typeof valueA === "number" && typeof valueB === "number")
           return sorter.order === "asc" ? valueA - valueB : valueB - valueA;
         else
@@ -78,7 +92,11 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
     return sorted;
   }, [transactions, sorter]);
 
-  //* Filter
+  /**
+   * Filtra as transações com base nos filtros definidos.
+   *
+   * @returns {Array} Uma matriz de transações filtradas de acordo com os filtros definidos.
+   */
   const filteredTransactions = useMemo(() => {
     return sortedTransactions.filter((transaction) => {
       const valueInRange =
@@ -89,14 +107,19 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
           filters.valueMax === "" ||
           transaction.value <= parseFloat(filters.valueMax));
       if (
+        // Verificação de Tipo
         (filters.type === "all" || transaction.type === filters.type) &&
+        // Verificação de categoria
         (filters.category === "all" ||
           transaction.category === filters.category) &&
+        // Verificação de título
         (filters.title === "" ||
           transaction.title
             .toLowerCase()
             .includes(filters.title.toLowerCase())) &&
+        // Verificação de Valor
         valueInRange &&
+        // Verificação de data
         (filters.createdAt === "" ||
           transaction.createdAt.includes(filters.createdAt))
       )
@@ -106,16 +129,26 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
     });
   }, [sortedTransactions, filters]);
 
-  //* Handlers
+  /**
+   * Manipula as mudanças nos campos do formulário.
+   *
+   * @param {Event} event - O evento de mudança.
+   */
   const handleChange = (event) => {
     updateState(event, setFilters);
   };
 
+  /**
+   * Manipula as mudanças nos campos do formulário com máscara.
+   *
+   * @param {string} value - O valor com máscara.
+   * @param {Event} event - O evento que acionou a mudança.
+   */
   const handleMaskChange = (value, event) => {
     updateStateMaskedInput(value, event, setFilters);
   };
 
-  //* Reset Filters and Sorters
+  // Redefine os filtros e classificação
   const resetFiltersAndSorters = () => {
     setFilters({
       type: "all",
@@ -136,6 +169,7 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
 
   return (
     <>
+      {/* Seção de filtros colapsável */}
       <article className="collapse collapse-arrow sm:max-w-xl sm:w-max bg-base-100 mb-8 border-[1px] border-neutral shadow-lg hover:outline-none focus:outline-none focus-visible:outline-none">
         <input type="checkbox" className="w-auto" />
         <div className="collapse-title text-xl font-medium">Filtros</div>
@@ -215,6 +249,7 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
           </button>
         </div>
       </article>
+      {/* Tabela de transações */}
       <article className="card bg-base-100 w-full border-[1px] border-neutral overflow-x-auto shadow-lg">
         <div className="card-body">
           <table className="table">
@@ -344,6 +379,7 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
           </table>
         </div>
       </article>
+      {/* Estatísticas relacionadas às transações */}
       <article className="stats w-full overflow-x-auto border-[1px] border-neutral shadow-xl mt-8">
         <Stat
           title={`Total (${getEntries("", "", true)})`}
@@ -362,7 +398,11 @@ export const Table = ({ openDeleteModal, openEditModal }) => {
         />
         {filters.category !== "all" && (
           <Stat
-            title={`Total - ${filters.category} (${getEntries("category", filters.category, true)})`}
+            title={`Total - ${filters.category} (${getEntries(
+              "category",
+              filters.category,
+              true
+            )})`}
             value={getFormattedValue(getEntries("category", filters.category))}
             description={`Valor total de gastos com (${filters.category})`}
           />

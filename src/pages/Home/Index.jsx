@@ -1,15 +1,11 @@
 //#region Imports
 
-//* React
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-//* Context API
-import { useApp } from "@/contexts/app";
+import { AppContext } from "@/contexts/app";
 
-//* Layout
 import { MainLayout } from "@/layouts/Index";
 
-//* Components
 import { Table } from "@/components/Index";
 import {
   ModalAdd,
@@ -18,46 +14,54 @@ import {
   ModalCategories,
 } from "@/components/Modals/Index";
 
-//* Icons
 import { Plus, Info } from "@phosphor-icons/react";
 
 //#endregion
 
 export const Home = () => {
-  //#region States and Variables
-
+  // Estados para controlar a exibição dos modais
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [openModalCategoriesCRUD, setOpenModalCategoriesCRUD] = useState(false);
 
+  // Estado para armazenar o ID da transação selecionada para edição ou exclusão
   const [selectedModalId, setSelectedModalId] = useState(0);
 
-  const { transactions } = useApp();
+  // Obtém as transações do contexto usando Context API
+  const { transactions } = useContext(AppContext);
 
-  //#endregion
-
-  //#region Methods
-
+  /**
+   * Abre o modal de adição de transação.
+   */
   const openAddTransactionModal = () => {
     setOpenModalAdd(true);
   };
 
+  /**
+   * Abre o modal de exclusão de transação.
+   * @param {number} id - ID da transação selecionada.
+   */
   const openDeleteTransactionModal = (id) => {
     setOpenModalDelete(true);
     setSelectedModalId(id);
   };
 
+  /**
+   * Abre o modal de edição de transação.
+   * @param {number} id - ID da transação selecionada.
+   */
   const openEditTransactionModal = (id) => {
     setOpenModalEdit(true);
     setSelectedModalId(id);
   };
 
+  /**
+   * Abre o modal de gerenciamento de categorias.
+   */
   const openModalCategories = () => {
     setOpenModalCategoriesCRUD(true);
   };
-
-  //#endregion
 
   return (
     <MainLayout pageTitle="Home">

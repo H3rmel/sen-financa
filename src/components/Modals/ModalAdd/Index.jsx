@@ -1,25 +1,28 @@
 //#region Imports
 
-//* React
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 
-//* Context API
-import { useApp } from "@/contexts/app";
+import { AppContext } from "@/contexts/app";
 
-//* Components/UI
 import { Modal, Input, Select } from "@/components/Index";
 
-//* Services
 import { addTransaction } from "@/services/transactions";
 
-//* Utils
 import { updateState } from "@/utils/updateState";
 import { isObjectComplete } from "@/utils/isObjectComplete";
 
 //#endregion
 
+/**
+ * Componente de modal para adicionar uma nova transação.
+ *
+ * @param {boolean} open - Estado que determina se o modal está aberto.
+ * @param {function} setOpen - Função para alterar o estado do modal.
+ * @returns {JSX.Element} O componente de modal para adicionar transação.
+ */
 export const ModalAdd = ({ open, setOpen }) => {
-  //#region States and Variables
+  // Contexto e estados
+  const { updateTransactions, categories } = useContext(AppContext);
 
   const [newTransaction, setNewTransaction] = useState({
     title: "",
@@ -28,39 +31,57 @@ export const ModalAdd = ({ open, setOpen }) => {
     value: 0,
   });
 
+  // Calcula se todos os campos estão preenchidos
   const fieldsCompleted = useMemo(
     () =>
       isObjectComplete(newTransaction, ["title", "type", "category", "value"]),
     [newTransaction]
   );
 
-  const { updateTransactions, categories } = useApp();
-
-  //#endregion
-
   //#region Methods
 
+  /**
+   * Manipula o fechamento do modal.
+   *
+   * @param {Event} event - O evento de clique.
+   */
   const handleClose = (event) => {
     event.preventDefault();
     setOpen(false);
   };
 
+  /**
+   * Manipula as mudanças nos campos do formulário.
+   *
+   * @param {Event} event - O evento de mudança.
+   */
   const handleChange = (event) => {
     updateState(event, setNewTransaction);
   };
 
+  /**
+   * Manipula o envio do formulário.
+   *
+   * @param {Event} event - O evento de envio.
+   */
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    // Adiciona nova transação
     addTransaction({ ...newTransaction });
+
+    // Atualiza as transações após a adição
     updateTransactions();
 
+    // Limpa o estado React newTransaction
     setNewTransaction({
       title: "",
       type: "",
       category: "",
       value: 0,
     });
+
+    // Fecha o Modal
     setOpen(false);
   };
 
@@ -69,6 +90,7 @@ export const ModalAdd = ({ open, setOpen }) => {
   return (
     <Modal id="addTransaction" title="Adicionar Transação" open={open}>
       <form className="flex justify-around flex-wrap mt-2">
+        {/* Campos do formulário */}
         <Input
           id="title"
           type="text"
@@ -84,7 +106,7 @@ export const ModalAdd = ({ open, setOpen }) => {
           label="Tipo"
         >
           <option value="income">Entrada</option>
-          <option value="expense">Sáida</option>
+          <option value="expense">Saída</option>
         </Select>
         <Select
           id="category"
@@ -106,6 +128,7 @@ export const ModalAdd = ({ open, setOpen }) => {
           placeholder="Valor aqui..."
           label="Valor"
         />
+        {/* Botões de ação */}
         <section className="modal-action flex gap-2 w-full">
           <button
             onClick={handleClose}

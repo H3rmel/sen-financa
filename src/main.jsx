@@ -1,14 +1,11 @@
 //#region Imports
 
-//* React.js
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-//* React Router
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 
-//* Context API
 import { AppProvider } from "./contexts/app";
 
 //#endregion

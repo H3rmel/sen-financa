@@ -1,3 +1,9 @@
+/**
+ * Formata um valor numérico como uma string no formato de moeda brasileira (BRL).
+ *
+ * @param {number} value - O valor numérico a ser formatado.
+ * @returns {string} O valor formatado como uma string no formato de moeda brasileira (BRL).
+ */
 export const getFormattedValue = (value) => {
   const options = {
     style: "currency",

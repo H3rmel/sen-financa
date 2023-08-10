@@ -1,9 +1,7 @@
 //#region Imports
 
-//* Layout
 import { MainLayout } from "@/layouts/Index";
 
-//* Icons
 import { Envelope, GithubLogo, LinkedinLogo } from "@phosphor-icons/react";
 
 //#endregion

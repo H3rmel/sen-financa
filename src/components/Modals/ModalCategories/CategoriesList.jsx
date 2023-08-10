@@ -1,20 +1,22 @@
 //#region Imports
 
-//* React
 import { useState, useMemo } from "react";
 
-//* Components/UI
 import { ConfirmButton, Input } from "@/components/Index";
 
-//* Icons
 import { Check, PencilSimple, TrashSimple } from "@phosphor-icons/react";
 
-//* Utils
 import { updateState } from "@/utils/updateState";
 import { isObjectComplete } from "@/utils/isObjectComplete";
 
 //#endregion
 
+/**
+ * Componente que renderiza uma lista de categorias.
+ *
+ * @param {React.ReactNode} children - Os elementos filho, representando itens de categoria.
+ * @returns {JSX.Element} Componente de lista de categorias.
+ */
 export const CategoriesList = ({ children }) => {
   return (
     <ul className="bg-neutral py-7 border-[1px] border-neutral-50/10 mt-4 rounded-2xl max-h-96 overflow-y-auto">
@@ -23,30 +25,50 @@ export const CategoriesList = ({ children }) => {
   );
 };
 
+/**
+ * Componente que renderiza um item de categoria.
+ *
+ * @param {Object} category - Os dados da categoria.
+ * @param {number} index - O índice do item na lista.
+ * @param {function} deleteCategory - Função para deletar uma categoria.
+ * @param {function} editCategory - Função para editar uma categoria.
+ * @returns {JSX.Element} Componente de item de categoria.
+ */
 export const CategoriesListItem = ({
   category,
   index,
   deleteCategory,
   editCategory,
 }) => {
-  //#region States and Variables
-
+  // Estados e variáveis
   const [newCategory, setNewCategory] = useState({ ...category });
   const [isEditing, setIsEditing] = useState(false);
 
+  // Verifica se o campo de nome da categoria foi preenchido
   const fieldCompleted = useMemo(
     () => isObjectComplete(newCategory, ["name"]),
     [newCategory]
   );
 
-  //#endregion
-
   //#region Methods
 
+  /**
+   * Manipula as mudanças nos campos do formulário.
+   *
+   * @param {Event} event - O evento de mudança.
+   */
   const handleChange = (event) => {
     updateState(event, setNewCategory);
   };
 
+  /**
+   * Manipula o envio do formulário de edição da categoria.
+   *
+   * Este método é chamado quando o usuário confirma a edição da categoria.
+   * Ele invoca a função 'editCategory' para atualizar os dados da categoria
+   * existente com os novos valores do estado 'newCategory'.
+   * Em seguida, define o estado 'isEditing' como 'false' para sair do modo de edição.
+   */
   const handleSubmit = () => {
     editCategory(category.id, newCategory);
     setIsEditing(false);
@@ -72,6 +94,7 @@ export const CategoriesListItem = ({
         <p className="text-lg capitalize">{category.name}</p>
       )}
       <div className="flex gap-2">
+        {/* Botão de confirmação para excluir */}
         <ConfirmButton
           onConfirm={() => deleteCategory(category.id)}
           className="btn-error btn-square text-neutral-50"
@@ -81,6 +104,7 @@ export const CategoriesListItem = ({
             <Check size={20} weight="bold" />,
           ]}
         />
+        {/* Botão de confirmação para editar */}
         <ConfirmButton
           onFirstClick={() => setIsEditing(true)}
           onConfirm={handleSubmit}
