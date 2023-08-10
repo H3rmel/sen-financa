@@ -1,8 +1,47 @@
-# React + Vite
+# SenFinança 🪙
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O SenFinança 🪙 é um aplicativo web desenvolvido por mim como parte do teste técnico realizado no procesos seletivo para a vaga de Analista Front End Pleno da SenseData, empresa SaaS especialista no segmento de Sucesso e Experiência do Cliente (ou Customer Success e Customer Experience, em inglês).
 
-Currently, two official plugins are available:
+## Hospedagem 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O projeto se encontra hospedado no seguinte link: [Home | SenFinança](https://sen-financa-h3rmel.vercel.app/about)
+
+## Tecnologias 🛠️ 
+
+Para este projeto foram utilizadas as seguintes tecnologias:
+
+- React
+  - React Router Dom
+- Tailwind CSS
+  - DaisyUI
+  - Postcss
+  - Autoprefixer
+- LocalStorage
+- ESLint
+- VSCode
+- ViteJS
+- Vercel
+
+## Rodando o Projeto 🚀
+
+Para rodar o projeto é bem simples, basta clona-lo:
+
+```bash
+git clone https://github.com/H3rmel/sen-financa.git
+```
+
+Após isso, acesse o repositório e na pasta raiz do mesmo execute o seguinte comando:
+
+```
+npm install && npm run dev
+```
+
+Se tudo estiver correto, você verá uma mensagem como essa:
+
+```
+  VITE v4.4.9  ready in 463 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h to show help
+```
