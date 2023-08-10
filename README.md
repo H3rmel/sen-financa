@@ -4,7 +4,7 @@ O SenFinança 🪙 é um aplicativo web desenvolvido por mim como parte do teste
 
 ## Hospedagem 
 
-O projeto se encontra hospedado no seguinte link: [Home | SenFinança](https://sen-financa-h3rmel.vercel.app/about)
+O projeto se encontra hospedado no seguinte link: [Home | SenFinança](https://sen-financa-henna.vercel.app/)
 
 ## Tecnologias 🛠️ 
 
