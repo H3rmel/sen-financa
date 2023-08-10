@@ -6,9 +6,11 @@ import { AppContext } from "@/contexts/app";
 
 import { Modal, Input, Select } from "@/components/Index";
 
+import { IMaskInput } from "react-imask";
+
 import { addTransaction } from "@/services/transactions";
 
-import { updateState } from "@/utils/updateState";
+import { updateState, updateStateMaskedInput } from "@/utils/updateState";
 import { isObjectComplete } from "@/utils/isObjectComplete";
 
 //#endregion
@@ -29,12 +31,19 @@ export const ModalAdd = ({ open, setOpen }) => {
     type: "",
     category: "",
     value: 0,
+    createdAt: "",
   });
 
   // Calcula se todos os campos estão preenchidos
   const fieldsCompleted = useMemo(
     () =>
-      isObjectComplete(newTransaction, ["title", "type", "category", "value"]),
+      isObjectComplete(newTransaction, [
+        "title",
+        "type",
+        "category",
+        "value",
+        "createdAt",
+      ]),
     [newTransaction]
   );
 
@@ -57,6 +66,16 @@ export const ModalAdd = ({ open, setOpen }) => {
    */
   const handleChange = (event) => {
     updateState(event, setNewTransaction);
+  };
+
+  /**
+   * Manipula as mudanças nos campos do formulário com máscara.
+   *
+   * @param {string} value - O valor com máscara.
+   * @param {Event} event - O evento que acionou a mudança.
+   */
+  const handleMaskChange = (value, event) => {
+    updateStateMaskedInput(value, event, setNewTransaction);
   };
 
   /**
@@ -89,7 +108,7 @@ export const ModalAdd = ({ open, setOpen }) => {
 
   return (
     <Modal id="addTransaction" title="Adicionar Transação" open={open}>
-      <form className="flex justify-around flex-wrap mt-2">
+      <form className="flex flex-wrap justify-evenly mt-2">
         {/* Campos do formulário */}
         <Input
           id="title"
@@ -128,6 +147,21 @@ export const ModalAdd = ({ open, setOpen }) => {
           placeholder="Valor aqui..."
           label="Valor"
         />
+        <div className="form-control w-full max-w-xs">
+          <label htmlFor="createdAt" className="label">
+            <span className="label-text">Data</span>
+          </label>
+          <IMaskInput
+            mask="00/00/0000"
+            name="createdAt"
+            id="createdAt"
+            value={newTransaction.createdAt}
+            onAccept={(value, mask, event) => handleMaskChange(value, event)}
+            required
+            placeholder="00/00/0000"
+            className="input input-bordered w-full max-w-xs"
+          />
+        </div>
         {/* Botões de ação */}
         <section className="modal-action flex gap-2 w-full">
           <button

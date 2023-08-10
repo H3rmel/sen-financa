@@ -6,9 +6,11 @@ import { AppContext } from "@/contexts/app";
 
 import { Modal, Input, Select } from "@/components/Index";
 
+import { IMaskInput } from "react-imask";
+
 import { getTransactionById, updateTransaction } from "@/services/transactions";
 
-import { updateState } from "@/utils/updateState";
+import { updateState, updateStateMaskedInput } from "@/utils/updateState";
 import { isObjectComplete } from "@/utils/isObjectComplete";
 
 //#endregion
@@ -29,19 +31,22 @@ export const ModalEdit = ({ id, open, setOpen }) => {
     title: "",
     type: "",
     category: "",
-    value: "",
+    value: 0,
     createdAt: "",
   });
 
-  // Calcula se todos os campos foram preenchidos
-  const fieldsCompleted = useMemo(() => {
-    return isObjectComplete(newTransaction, [
-      "title",
-      "type",
-      "category",
-      "value",
-    ]);
-  }, [newTransaction]);
+  // Calcula se todos os campos estão preenchidos
+  const fieldsCompleted = useMemo(
+    () =>
+      isObjectComplete(newTransaction, [
+        "title",
+        "type",
+        "category",
+        "value",
+        "createdAt",
+      ]),
+    [newTransaction]
+  );
 
   // Obtém o contexto da aplicação para acesso a transações e categorias
   const { updateTransactions, categories } = useContext(AppContext);
@@ -65,6 +70,18 @@ export const ModalEdit = ({ id, open, setOpen }) => {
    */
   const handleChange = (event) => {
     updateState(event, setNewTransaction);
+  };
+
+  /**
+   * Manipula as mudanças nos campos do formulário com máscara.
+   *
+   * @param {string} value - O valor com máscara.
+   * @param {Event} event - O evento que acionou a mudança.
+   */
+  const handleMaskChange = (value, event) => {
+    if (!event) return;
+
+    updateStateMaskedInput(value, event, setNewTransaction);
   };
 
   /**
@@ -98,7 +115,8 @@ export const ModalEdit = ({ id, open, setOpen }) => {
 
   return (
     <Modal id="editTransaction" title="Adicionar Transação" open={open}>
-      <form className="flex justify-between flex-wrap mt-2">
+      <form className="flex flex-wrap justify-evenly mt-2">
+        {/* Campos do formulário */}
         <Input
           id="title"
           type="text"
@@ -136,6 +154,22 @@ export const ModalEdit = ({ id, open, setOpen }) => {
           placeholder="Valor aqui..."
           label="Valor"
         />
+        <div className="form-control w-full max-w-xs">
+          <label htmlFor="createdAt" className="label">
+            <span className="label-text">Data</span>
+          </label>
+          <IMaskInput
+            mask="00/00/0000"
+            name="createdAt"
+            id="createdAt"
+            value={newTransaction.createdAt}
+            onAccept={(value, mask, event) => handleMaskChange(value, event)}
+            required
+            placeholder="00/00/0000"
+            className="input input-bordered w-full max-w-xs"
+          />
+        </div>
+        {/* Botões de ação */}
         <section className="modal-action flex gap-2 w-full">
           <button
             onClick={handleClose}
