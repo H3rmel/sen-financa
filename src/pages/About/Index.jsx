@@ -122,7 +122,7 @@ export const About = () => {
             E-mail
           </a>
           <a
-            href="https://www.linkedin.com/in/isaacherml"
+            href="https://www.linkedin.com/in/isaachermel"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary flex-grow hover:no-underline"
